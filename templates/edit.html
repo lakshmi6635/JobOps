@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold m-0">Manage Application</h3>
+                <span class="badge bg-primary-subtle text-primary">{{ job.company_name }}</span>
+            </div>
+            
+            <form method="POST">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Application Status</label>
+                        <select name="status" class="form-select">
+                            <option value="Applied" {% if job.status == 'Applied' %}selected{% endif %}>Applied</option>
+                            <option value="Interview" {% if job.status == 'Interview' %}selected{% endif %}>Interview</option>
+                            <option value="Selected" {% if job.status == 'Selected' %}selected{% endif %}>Selected</option>
+                            <option value="Rejected" {% if job.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Interview Date</label>
+                        <input type="datetime-local" name="interview_date" class="form-control" value="{{ job.interview_date or '' }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Interview Round</label>
+                        <select name="interview_round" class="form-select">
+                            <option value="" {% if not job.interview_round %}selected{% endif %}>Select round</option>
+                            <option value="HR" {% if job.interview_round == 'HR' %}selected{% endif %}>HR</option>
+                            <option value="Technical" {% if job.interview_round == 'Technical' %}selected{% endif %}>Technical</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Interview Status</label>
+                        <select name="interview_status" class="form-select">
+                            <option value="" {% if not job.interview_status %}selected{% endif %}>Select status</option>
+                            <option value="Scheduled" {% if job.interview_status == 'Scheduled' %}selected{% endif %}>Scheduled</option>
+                            <option value="Completed" {% if job.interview_status == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label small fw-bold">Interview Notes</label>
+                        <textarea name="interview_feedback" class="form-control" rows="4" placeholder="Questions asked, feedback, next steps...">{{ job.interview_feedback or '' }}</textarea>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-dark w-100">Update Tracking Info</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

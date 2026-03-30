@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item small text-muted">Career Pipeline</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold m-0 text-dark">Target Companies</h2>
+        </div>
+        <div class="text-end">
+            <span class="badge bg-primary px-3 py-2 rounded-pill shadow-sm">
+                <i class="bi bi-building me-1"></i> {{ jobs|groupby('company_name')|length }} Companies Tracked
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for company, items in jobs|groupby('company_name') %}
+        <div class="col-xl-6 mb-4">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle me-3" style="width: 45px; height: 45px; font-weight: 800;">
+                                {{ company[0] | upper }}
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-0 text-dark">{{ company }}</h5>
+                                <p class="text-muted small mb-0">{{ items|length }} Active Application{{ 's' if items|length > 1 else '' }}</p>
+                            </div>
+                        </div>
+                        {% if items[0].company_website %}
+                        <a href="{{ items[0].company_website }}" target="_blank" class="btn btn-sm btn-light text-primary">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr class="small text-uppercase text-muted fw-bold">
+                                <th class="ps-4" style="font-size: 0.7rem;">Role & Location</th>
+                                <th style="font-size: 0.7rem;">Status</th>
+                                <th class="text-end pe-4" style="font-size: 0.7rem;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for job in items %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold text-dark mb-0">{{ job.role }}</div>
+                                    <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>{{ job.location or 'Remote' }}</div>
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill px-3 
+                                        {% if job.status == 'Applied' %}bg-primary-subtle text-primary
+                                        {% elif job.status == 'Interview' %}bg-warning-subtle text-warning
+                                        {% elif job.status == 'Selected' %}bg-success-subtle text-success
+                                        {% else %}bg-danger-subtle text-danger{% endif %} border-0">
+                                        {{ job.status }}
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a href="{{ url_for('edit_job', id=job.id) }}" class="btn btn-sm btn-outline-secondary border-0">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center py-5">
+            <div class="py-5">
+                <i class="bi bi-building-dash display-1 text-light mb-4 d-block"></i>
+                <h4 class="text-muted">Your company list is empty</h4>
+                <p class="text-muted mb-4">Start adding applications to see your target companies here.</p>
+                <a href="{{ url_for('add_job') }}" class="btn btn-primary px-4">Add First Application</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 1rem 3rem rgba(0,0,0,.1) !important; }
+    .table-hover tbody tr:hover { background-color: #f8f9fa; }
+    .bg-primary-subtle { background-color: #e7f0ff !important; }
+    .bg-warning-subtle { background-color: #fff3cd !important; }
+    .bg-success-subtle { background-color: #d1e7dd !important; }
+    .bg-danger-subtle { background-color: #f8d7da !important; }
+</style>
+{% endblock %}

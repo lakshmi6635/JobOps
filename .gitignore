@@ -1,0 +1,5 @@
+# Ignore sensitive and database files
+jobtracker.db
+.env
+__pycache__/
+*.pyc

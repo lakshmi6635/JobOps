@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0 p-4">
+            <h3 class="fw-bold mb-4">Add New Application</h3>
+            <form method="POST">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Company Name*</label>
+                        <input type="text" name="company_name" class="form-control" placeholder="e.g. Google" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Job Role*</label>
+                        <input type="text" name="role" class="form-control" placeholder="e.g. DevOps Engineer" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Location</label>
+                        <input type="text" name="location" class="form-control" placeholder="City / Remote">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Salary (optional)</label>
+                        <input type="text" name="salary" class="form-control" placeholder="e.g. $120,000">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Application Date</label>
+                        <input type="date" name="date_applied" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Status</label>
+                        <select name="status" class="form-select">
+                            <option value="Applied">Applied</option>
+                            <option value="Interview">Interview</option>
+                            <option value="Selected">Selected</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Interview Date</label>
+                        <input type="datetime-local" name="interview_date" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Interview Round</label>
+                        <select name="interview_round" class="form-select">
+                            <option value="">Select round</option>
+                            <option value="HR">HR</option>
+                            <option value="Technical">Technical</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Interview Status</label>
+                        <select name="interview_status" class="form-select">
+                            <option value="">Select status</option>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label small fw-bold">Interview Notes</label>
+                        <textarea name="interview_feedback" class="form-control" rows="4" placeholder="Questions asked, feedback, next steps..."></textarea>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label small fw-bold">Notes</label>
+                        <textarea name="notes" class="form-control" rows="4" placeholder="Add anything useful here..."></textarea>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <button type="reset" class="btn btn-light border px-4">Clear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

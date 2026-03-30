@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-xl-8">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Profile</h3>
+                        <small class="text-muted">Manage your account information and upload your resume.</small>
+                    </div>
+                    <span class="badge bg-primary">{{ total_apps }} Applications</span>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="form_type" value="profile">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Name</label>
+                            <input type="text" name="full_name" class="form-control" value="{{ current_user.full_name or '' }}" placeholder="Your full name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ current_user.email or '' }}" placeholder="you@example.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Phone Number</label>
+                            <input type="tel" name="phone" class="form-control" value="{{ current_user.phone or '' }}" placeholder="+1 555 123 4567">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Resume Upload</label>
+                            <input type="file" name="resume" class="form-control">
+                            {% if resume_url %}
+                            <small class="d-block mt-2">Current: <a href="{{ resume_url }}" target="_blank">Download resume</a></small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">Save</button>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-light border px-4">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="fw-bold mb-4">Change Password</h5>
+                <form method="POST">
+                    <input type="hidden" name="form_type" value="password">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Current Password</label>
+                            <input type="password" name="old_password" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">New Password</label>
+                            <input type="password" name="new_password" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-outline-secondary">Change Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
