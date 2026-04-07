@@ -1,39 +1,30 @@
-name: JobOps Python CI
+name: Python CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - main
+      - master
   pull_request:
-    branches: [ "master" ]
-
-env:
-  # This fixes the Node.js 20 warning in your logs
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    branches:
+      - main
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # This checks for the file and installs only if found
-        if [ -f requirements.txt ]; then 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
-        else
-          echo "requirements.txt not found, skipping pip install"
-        fi
-
-    - name: Build Docker Image
-      run: |
-        # This ensures the build happens even if previous steps were skipped
-        docker build -t jobops-web:latest .
